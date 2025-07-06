@@ -23,7 +23,10 @@ source .venv/bin/activate
 echo -- Install dependencies --
 pip install -r requirements.txt
 # SageAttention
-pip install https://github.com/matheohan/ComfyUI-Sage-Runpod/releases/download/latest/sageattention-2.2.0+cu128torch280-cp311-cp311-linux_x86_64.whl
+if command -v nvidia-smi &> /dev/null; then
+    COMPUTE_CAP=$(nvidia-smi --query-gpu=compute_cap --format=csv,noheader,nounits | head -1)
+    pip install https://github.com/matheohan/ComfyUI-Sage-Runpod/releases/download/latest/sageattention-2.2.0+cu128torch280cc${COMPUTE_CAP}-cp311-cp311-linux_x86_64.whl
+fi
 
 # Additional dependencies
 pip install huggingface-hub
